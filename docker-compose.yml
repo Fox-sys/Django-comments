@@ -1,29 +1,35 @@
 version: '3.7'
 
 services:
-  web:
-    build: ./app
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./app/:/usr/src/app/
-    ports:
-      - 8000:8000
-    env_file:
-      - ./.env.dev
-    depends_on:
-      - db
-  db:
-    image: postgres:12.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=django_comments
+#   web:
+#     build: ./app
+#     command: python manage.py runserver 0.0.0.0:8000
+#     volumes:
+#       - ./app/:/usr/src/app/
+#     ports:
+#       - 8000:8000
+#     env_file:
+#       - ./.env.dev
+#     depends_on:
+#       - db
+#       - redis
+#     volumes:
+#       - ./app:/app
+#   db:
+#     image: postgres:12.0-alpine
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data/
+#     environment:
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=123456
+#       - POSTGRES_DB=django_comments
+
   redis:
     image: redis
-    ports: 
+    command: redis-server
+    ports:
     - '6379:6379'
 
-volumes:
-  postgres_data:
+# volumes:
+#   postgres_data:
+

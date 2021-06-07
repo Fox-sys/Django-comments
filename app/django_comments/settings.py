@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from os import environ
 
+DEFAULT_POSTS_URL = 'posts/'
+DEFAULT_POSTS_MODEL = 'posts.Post'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'posts',
+    'comments',
     'channels',
 ]
 
@@ -69,17 +74,19 @@ TEMPLATES = [
     },
 ]
 
+REDIS_HOST = environ.get('REDIS_HOST', '127.0.0.1')
+REDIS_PORT = environ.get('REDIS_PORT', '6379')
+
 WSGI_APPLICATION = 'django_comments.wsgi.application'
 ASGI_APPLICATION = "django_comments.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [(f"{REDIS_HOST}", int(REDIS_PORT))],
         },
     },
 }
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -150,3 +157,4 @@ else:
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
