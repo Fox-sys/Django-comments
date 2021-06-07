@@ -18,8 +18,11 @@ How to integrate?
 4) in settings.py:
 
 ```REDIS_HOST = environ.get('REDIS_HOST', '127.0.0.1')```
+
 ```REDIS_PORT = environ.get('REDIS_PORT', '6379')```
+
 ```ASGI_APPLICATION = "project name.asgi.application"```
+
 ```CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -29,8 +32,11 @@ How to integrate?
     },
 }
 ```
+
 ```DEFAULT_POSTS_URL = 'your url'```
+
 ```DEFAULT_POSTS_MODEL = 'your model (service.model name)'```
+
 5) in asgi.py:
 ```import os
 from channels.routing import ProtocolTypeRouter, URLRouter
