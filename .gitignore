@@ -1,0 +1,5 @@
+__pychace__/
+.env.prod
+.env.prod.db
+.vscode/
+env/
