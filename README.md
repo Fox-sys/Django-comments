@@ -51,7 +51,8 @@ application = ProtocolTypeRouter({
             websocket_urlpatterns
         )
     ),
-})```
+})
+```
 
 6) In default post model should be many to many field for comments.Comment
 7) Also you should have redis server (if u don't have use docker-compose.yml from example. Starting with "sudo docker-compose up --build")
