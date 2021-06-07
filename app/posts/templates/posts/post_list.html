@@ -1,0 +1,10 @@
+{% for i in posts %}
+    <h2>{{ i.name }}</h2>
+    {{ i.author }} 
+    <div style="width: 500px">
+        {{ i.text }}
+    </div>
+    {{ i.published_on }} <br>
+    <a href="{% url 'post_detail' pk=i.id%}">Подробнее</a>
+    <hr>
+{% endfor %}

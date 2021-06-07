@@ -1,0 +1,51 @@
+<div>
+    <h1>{{ post.name }}</h1>
+    <hr>
+    <h3>{{ post.author }}</h3>
+    <div>
+        {{ post.text }}
+    </div>
+    {{ post.published_on }} <br>
+    {% if post.edited %}Редактировалось{% endif %}
+    <hr>
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            <input name='text' id='id_text'>
+            <br>
+            <input type="submit" value="Отправить" id='send-comment'>
+        </form>
+    {% endif %}
+    <div id="comments-list">
+    {% for i in post.comments.all %}
+        {{ i.author }}
+        <div>
+            {{ i.text }}
+        </div>
+        {{ i.published_on|date:"Y-m-d: H-i" }}
+        <hr>
+    {% endfor %}
+    </div>
+    
+</div>
+<script>
+    const commentsSocket = new WebSocket('ws://' + window.location.host + '/comments/{{ post.id }}/')
+    commentsSocket.onmessage = (e) => {
+        const data = JSON.parse(e.data)
+        const commentsList = document.getElementById('comments-list')
+        commentsList.insertAdjacentHTML(
+            'beforeend', 
+            data["message"]["author"] + '<div>' + data['message']['text'] +  '</div>' + 
+            data["message"]["published_on"] + '<hr/>'
+        )
+    }
+    document.querySelector('#send-comment').onclick = (e) => {
+        e.preventDefault();
+        const message = document.querySelector('#id_text');
+        const text = message.value;
+        commentsSocket.send(JSON.stringify({
+            'text': text
+        }))
+        message.value = ''
+    }
+</script>
